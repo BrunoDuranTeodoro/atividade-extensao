@@ -70,8 +70,8 @@ h1 {
 /* 3. ESTILO DO JOGADOR */
 #player {
     position: absolute; /* Inicia como absoluto no body (será movido para a barra via JS) */
-    width: 64px; 
-    height: 96px; 
+    width: 130px; 
+    height: 130px; 
     z-index: 10000; 
     /* Transições para o movimento na barra (horizontal) e no mapa (top/left) */
     transition: all 0.5s ease-out, top 2s ease-in-out, left 2s ease-in-out; 
@@ -93,15 +93,19 @@ h1 {
 /* 4. Caixa de Diálogo Principal (Quiz/Start) */
 .quiz-container {
     position: relative; /* Referência para o player quando ele está dentro */
+    /* ALTERAÇÕES PARA CENTRALIZAR E AUMENTAR O TAMANHO */
     position: fixed; 
-    bottom: 20px;
-    min-height: 150px; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); /* Centraliza no meio exato */
+    
+    min-height: 300px; 
     width: 90%;
-    max-width: 800px;
-    padding: 20px 30px;
+    max-width: 1000px; 
+    padding: 30px 40px; 
+    /* FIM DAS ALTERAÇÕES */
+    
     margin: 0 auto; 
-    left: 0;
-    right: 0;
     z-index: 9999; 
     border: 4px solid #f8f8f8; 
     box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5); 
@@ -158,14 +162,18 @@ h1 {
 /* Detalhes do Resultado (Caixa de texto final) */
 .result-details {
     position: fixed;
-    bottom: 50px;
+    /* ALTERAÇÕES PARA CENTRALIZAR E AUMENTAR O TAMANHO */
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
+    
     width: 90%;
-    max-width: 600px;
+    max-width: 700px;
     background: rgba(4, 15, 60, 0.9);
     border: 4px solid #f8f8f8;
-    padding: 20px;
+    padding: 25px; 
+    /* FIM DAS ALTERAÇÕES */
+    
     z-index: 9900;
     pointer-events: auto; /* Deve ser clicável */
 }
