@@ -10,6 +10,9 @@
 body {
     font-family: "Courier New", monospace; 
     
+    /* AUMENTO DA FONTE BASE */
+    font-size: 1.1em; 
+    
     /* CAMADA BASE: Seu mapa GIF estático */
     background-image: url('../assets/background/rpg-map.gif'); 
     background-size: cover; 
@@ -162,7 +165,6 @@ h1 {
 /* Detalhes do Resultado (Caixa de texto final) */
 .result-details {
     position: fixed;
-    /* ALTERAÇÕES PARA CENTRALIZAR E AUMENTAR O TAMANHO */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -172,7 +174,6 @@ h1 {
     background: rgba(4, 15, 60, 0.9);
     border: 4px solid #f8f8f8;
     padding: 25px; 
-    /* FIM DAS ALTERAÇÕES */
     
     z-index: 9900;
     pointer-events: auto; /* Deve ser clicável */
@@ -180,6 +181,12 @@ h1 {
 
 
 /* 6. ESTILOS GERAIS E BOTÕES */
+
+/* AUMENTO DA FONTE DA PERGUNTA */
+.question h3 {
+    font-size: 1.5em; /* Fonte maior para a pergunta */
+    margin-bottom: 20px;
+}
 
 /* Animação de Pulsar para o botão Iniciar */
 .start-btn {
@@ -198,9 +205,9 @@ h1 {
     background: rgba(255, 255, 255, 0.1); 
     color: #f8f8f8;
     border: 1px solid #444; 
-    padding: 10px;
-    margin: 5px 0;
-    font-size: 1em;
+    padding: 12px; /* Aumentei o padding */
+    margin: 8px 0; /* Aumentei a margem */
+    font-size: 1.2em; /* Fonte maior para as opções */
     cursor: pointer;
     text-align: left;
     transition: background 0.1s;
@@ -228,7 +235,7 @@ h1 {
 
 .question-counter {
     text-align: right;
-    font-size: 0.9em;
+    font-size: 1.1em; /* Aumentei um pouco */
     color: #ccc;
     margin-bottom: 10px;
 }
