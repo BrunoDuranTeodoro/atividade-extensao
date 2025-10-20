@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESCAPE! Quiz Vocacional RPG - Destino</title>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+New:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css"> 
 </head>
 <body>
   
   <h1>ESCAPE! Quiz Vocacional - Qual curso combina com você?</h1>
   
+  <img id="player" src="assets/background/player.gif" alt="Personagem Progresso">
+
   <div class="quiz-container">
-    
-    <img id="player" src="assets/background/player.gif" alt="Personagem Progresso">
-    
-    <div id="quiz">
+    <div id="quiz-content">
       </div>
-    <div id="result" class="result hidden"></div>
+  </div>
+
+  <div id="final-screen" class="final-screen hidden">
+      <div id="meca-label" class="house-label label-left hidden">TOCA DOS MECATRÔNICOS</div>
+      <div id="ads-label" class="house-label label-right hidden">MAGIA DOS SISTEMAS</div>
+      
+      <div id="result-details" class="result-details hidden"></div>
   </div>
 
   <script src="js/script.js"></script>

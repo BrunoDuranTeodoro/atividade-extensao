@@ -9,98 +9,179 @@
 
 body {
     font-family: "Courier New", monospace; 
+    
+    /* CAMADA BASE: Seu mapa GIF estático */
     background-image: url('../assets/background/rpg-map.gif'); 
     background-size: cover; 
     background-position: center top; 
     background-attachment: fixed; 
+    
     color: #f8f8f8;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
     padding-top: 20px;
-    position: static; /* Volta para o padrão, pois o player está dentro do quiz-container */
+    position: relative; /* CRUCIAL: Referência para elementos posicionados fixos/absolutos */
+    
+    /* Overlay e Animação de Fundo */
+    background-color: #000000;
+    &::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* Gradiente animado sutil */
+        background: linear-gradient(135deg, rgba(0, 50, 80, 0.3), rgba(80, 0, 80, 0.3));
+        background-size: 400% 400%; 
+        animation: colorShift 15s ease infinite; 
+        z-index: 1;
+        pointer-events: none; 
+    }
 }
 
-/* 2. ESTILO CORRIGIDO: SPRITE DO JOGADOR (PROGRESSO) */
-#player {
-    position: absolute;
-    /* TAMANHO MAIOR CONFORME SOLICITADO */
-    width: 200px; 
-    height: 200px; 
-    
-    z-index: 10000; 
-    
-    /* CORREÇÃO CRUCIAL: Posiciona o sprite ACIMA da barra (100% da altura do container) */
-    bottom: 100%; 
-    
-    left: 0; /* Começa na esquerda */
-    
-    /* Transição suave para simular a caminhada */
-    transition: left 0.5s ease-out; 
-    
-    /* Centraliza o sprite no ponto de progresso */
-    transform: translateX(-50%); 
+/* Animação do Gradiente */
+@keyframes colorShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 
-/* 3. Título do Jogo */
+/* 2. TÍTULO ESTILIZADO */
 h1 {
-    color: #f8f8f8;
-    text-shadow: 2px 2px #000000;
+    color: #ffd700; /* Ouro */
+    text-shadow: 
+        -2px -2px 0 #000, 2px -2px 0 #000,
+        -2px 2px 0 #000, 2px 2px 0 #000,
+        0 0 10px rgba(255, 255, 100, 0.5); /* Brilho */
+        
     text-align: center;
     margin-bottom: 20px;
-    font-size: 2.5em;
+    font-size: 2.8em; 
     font-weight: bold;
+    z-index: 10; 
 }
 
-/* 4. Caixa de Diálogo Principal (Contexto de Posicionamento) */
-.quiz-container, .result {
-    /* CRUCIAL: Define o quiz-container como a REFERÊNCIA para o sprite (#player) */
-    position: relative; 
+/* 3. ESTILO DO JOGADOR */
+#player {
+    position: absolute; /* Inicia como absoluto no body (será movido para a barra via JS) */
+    width: 64px; 
+    height: 96px; 
+    z-index: 10000; 
+    /* Transições para o movimento na barra (horizontal) e no mapa (top/left) */
+    transition: all 0.5s ease-out, top 2s ease-in-out, left 2s ease-in-out; 
+    transform: translateX(-50%); 
     
-    /* Estas propriedades posicionam a caixa de diálogo na parte inferior da tela */
+    /* Posição inicial fora da tela (apenas para garantir que não apareça antes do JS) */
+    left: -100px;
+    top: -100px;
+}
+
+/* Classe de Posição FIXA para o movimento final no MAPA (BODY) */
+.player-final {
+    position: fixed !important; 
+    bottom: auto !important;
+    top: 65vh; /* Altura final no mapa, perto das casas */
+}
+
+
+/* 4. Caixa de Diálogo Principal (Quiz/Start) */
+.quiz-container {
+    position: relative; /* Referência para o player quando ele está dentro */
     position: fixed; 
     bottom: 20px;
-    
-    /* Garante altura mínima para exibir o diálogo inicial */
     min-height: 150px; 
-    
     width: 90%;
     max-width: 800px;
     padding: 20px 30px;
     margin: 0 auto; 
     left: 0;
     right: 0;
-    
     z-index: 9999; 
-    
-    /* Estilo da Caixa de Diálogo */
-    background: rgba(4, 15, 60, 0.9); 
     border: 4px solid #f8f8f8; 
-    border-radius: 0; 
     box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5); 
-    
     color: #f8f8f8;
+    /* Transição para a cor dinâmica (ADS/Mecatrônica) e para sumir */
+    transition: background-color 0.8s ease-in-out, opacity 0.5s;
 }
 
-/* 5. Estilos de Botões */
-
-.question h3, .result h2 {
-    color: #fff; 
-    font-size: 1.1em;
-    margin-bottom: 15px;
+/* Garante que o player na barra fique visível acima da borda */
+.quiz-container #player {
+    position: absolute;
+    bottom: 100%; 
+    transition: left 0.5s ease-out; /* Movimento horizontal na barra */
 }
 
-.result h2 {
-    color: #00ff00; 
+
+/* 5. ELEMENTOS DA TELA DE RESULTADO FINAL (APÓS O QUIZ) */
+
+#final-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9000; 
+    pointer-events: none; /* Permite o clique nos elementos que estão por baixo ou em cima */
+}
+
+/* Etiquetas das Casas */
+.house-label {
+    position: absolute;
+    font-size: 1.5em;
     font-weight: bold;
+    color: #ffd700;
+    text-shadow: 2px 2px 0 #000, 0 0 5px #f00;
+    z-index: 9050;
+    pointer-events: auto;
+    text-align: center;
 }
 
-.options button, .start-btn, .restart-btn {
-    z-index: 10000; 
-    position: relative; 
+/* Posições exatas das casas (ajuste fino conforme seu mapa) */
+.label-left {
+    top: 50vh; 
+    left: 20%;
+    transform: translateX(-50%);
+}
+
+.label-right {
+    top: 50vh; 
+    right: 15%;
+    transform: translateX(50%);
+}
+
+/* Detalhes do Resultado (Caixa de texto final) */
+.result-details {
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    background: rgba(4, 15, 60, 0.9);
+    border: 4px solid #f8f8f8;
+    padding: 20px;
+    z-index: 9900;
+    pointer-events: auto; /* Deve ser clicável */
+}
+
+
+/* 6. ESTILOS GERAIS E BOTÕES */
+
+/* Animação de Pulsar para o botão Iniciar */
+.start-btn {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
 }
 
 .options button {
@@ -109,24 +190,23 @@ h1 {
     background: rgba(255, 255, 255, 0.1); 
     color: #f8f8f8;
     border: 1px solid #444; 
-    border-radius: 0;
     padding: 10px;
     margin: 5px 0;
     font-size: 1em;
     cursor: pointer;
     text-align: left;
-    transition: background 0.1s, color 0.1s;
+    transition: background 0.1s;
 }
 
-.options button:hover,
-.options button:focus {
+.options button:hover, .options button:focus {
     background: #ffc;
     color: #000; 
     border-color: #f8f8f8;
     outline: none; 
 }
 
-.start-btn, .restart-btn {
+.restart-btn {
+    /* Estilo de botão geral para recomeçar */
     background: #555 !important;
     border: 2px solid #f8f8f8 !important;
     color: #f8f8f8 !important;
@@ -136,9 +216,7 @@ h1 {
     width: auto !important;
     transition: background 0.2s;
 }
-.start-btn:hover, .restart-btn:hover {
-    background: #777 !important;
-}
+.restart-btn:hover { background: #777 !important; }
 
 .question-counter {
     text-align: right;
@@ -146,6 +224,8 @@ h1 {
     color: #ccc;
     margin-bottom: 10px;
 }
+
+/* Utilitário para sumir o elemento (usado pelo JS) */
 .hidden {
-    display: none;
+    display: none !important;
 }
